@@ -1,5 +1,7 @@
 #include <opencv2/opencv.hpp>
 
+// RESOLUTION WINDOW 640 x 480
+
 using namespace cv;
 
 int main()
@@ -45,7 +47,6 @@ int main()
         // Capture frame-by-frame
         Mat frame, flippedFrame;
         cap >> frame;
-
         // Flip the frame
         flip(frame, flippedFrame, 1);
         // Check if frame is empty
@@ -68,10 +69,23 @@ int main()
         std::vector<KeyPoint> keypoints;
         detector->detect(mask, keypoints);
 
+        int maxArea = 0;
+        Point maxPt;
+        for (int i = 0; i < keypoints.size(); i++) {
+            if (keypoints[i].size > maxArea) {
+                maxArea = keypoints[i].size;
+                maxPt = keypoints[i].pt;
+            }
+        }
+
+        // print the x and y position of the biggest blob
+        std::cout << "Position: (" << maxPt.x << ", " << maxPt.y << ")" << std::endl;
+        
         // Draw detected blobs as circles
         Mat im_with_keypoints;
         drawKeypoints(flippedFrame, keypoints, im_with_keypoints, Scalar(0, 0, 255), DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
-
+        rectangle(im_with_keypoints, Point(100, 100), Point(frame.cols-100, frame.rows-100), Scalar(0, 255, 0), 2);
+        
         // Show the image with keypoints
         imshow("Blob detection", im_with_keypoints);
 
