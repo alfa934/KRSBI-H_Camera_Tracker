@@ -79,15 +79,12 @@ int main()
             if (keypoints[i].size > maxArea) {
                 maxArea = keypoints[i].size;
                 maxPt = keypoints[i].pt;
-            }
-        }
-        
-        for(auto kp : keypoints)
-        {
-            // Check if the center of the blob is outside the rectangle
-            if(!rect.contains(kp.pt))
-            {
-                std::cout << "x: " << kp.pt.x << " y: " << kp.pt.y << std::endl;
+                
+                // biggest blob will be printed
+                if(!rect.contains(maxPt))
+                {
+                    std::cout << "x: " << (int)maxPt.x << " y: " << (int)maxPt.y << std::endl;
+                }
             }
         }
 
