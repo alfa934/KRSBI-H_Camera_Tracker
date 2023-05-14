@@ -46,12 +46,16 @@ int main()
     while(true){
         // Capture frame-by-frame
         Mat frame, flippedFrame;
+        
         cap >> frame;
+        Rect rect(100, 100, frame.cols-200, frame.rows-200);
         // Flip the frame
         flip(frame, flippedFrame, 1);
         // Check if frame is empty
         if(frame.empty())
             break;
+
+        rectangle(flippedFrame, rect, Scalar(0, 255 ,0), 2);
 
         // Convert from RGB to HSV color space
         Mat hsv;
@@ -77,14 +81,23 @@ int main()
                 maxPt = keypoints[i].pt;
             }
         }
+        
+        for(auto kp : keypoints)
+        {
+            // Check if the center of the blob is outside the rectangle
+            if(!rect.contains(kp.pt))
+            {
+                std::cout << "x: " << kp.pt.x << " y: " << kp.pt.y << std::endl;
+            }
+        }
 
         // print the x and y position of the biggest blob
-        std::cout << "Position: (" << maxPt.x << ", " << maxPt.y << ")" << std::endl;
+        // std::cout << "Position: (" << maxPt.x << ", " << maxPt.y << ")" << std::endl;
         
         // Draw detected blobs as circles
         Mat im_with_keypoints;
         drawKeypoints(flippedFrame, keypoints, im_with_keypoints, Scalar(0, 0, 255), DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
-        rectangle(im_with_keypoints, Point(100, 100), Point(frame.cols-100, frame.rows-100), Scalar(0, 255, 0), 2);
+        // rectangle(im_with_keypoints, Point(100, 100), Point(frame.cols-100, frame.rows-100), Scalar(0, 255, 0), 2);
         
         // Show the image with keypoints
         imshow("Blob detection", im_with_keypoints);
