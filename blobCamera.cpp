@@ -110,10 +110,10 @@ int main(int argc, char **argv)
                     int x = (int)maxPt.x;
                     int y = (int)maxPt.y;
 
-                    pos_msg.data.clear();
-                    pos_msg.data.push_back(x);
-                    pos_msg.data.push_back(y);
-                    pos_pub.publish(pos_msg);
+                    // pos_msg.data.clear();
+                    // pos_msg.data.push_back(x);
+                    // pos_msg.data.push_back(y);
+                    // pos_pub.publish(pos_msg);
 
                     printf("X,Y : [ %d, %d ] \n", x, y);
                 }   
