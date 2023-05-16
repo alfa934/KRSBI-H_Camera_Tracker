@@ -82,8 +82,8 @@ int main(int argc, char **argv)
 
         // Threshold the image based on color
         Mat mask;     // might need to calibrate Scalar() values
-        // inRange(hsv, Scalar(0, 100, 179), Scalar(100, 255, 255), mask); 
-        inRange(hsv, Scalar(0, 90, 195), Scalar(180, 255, 255), mask);
+        inRange(hsv, Scalar(0, 80, 140), Scalar(180, 255, 255), mask);
+        
         // Apply morphological operations to remove noise and fill small gaps in the blobs
         Mat kernel = getStructuringElement(MORPH_ELLIPSE, Size(9, 9));
         morphologyEx(mask, mask, MORPH_OPEN, kernel);
