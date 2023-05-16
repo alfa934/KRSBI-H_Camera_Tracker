@@ -6,21 +6,30 @@ Servo myServo;
 
 // SETUP ROS
 ros::NodeHandle nh;
-std_msgs::Int32MultiArray msg;
 
 int middle = 90;
 int rightMax = 180;
 int leftMax = 0;
 
+int posX = middle;
+int dx = 4;
 void messageCb(const std_msgs::Int32MultiArray& pos_msg)
 {
   // X = pos_msg.data[0]
   // Y = pos_msg.data[1]
   
   if(pos_msg.data[0] > 540)
-    myServo.write(rightMax);
+  {
+    if(posX <= rightMax)
+      posX += dx;
+  }
   else if(pos_msg.data[0] < 100)
-    myServo.write(leftMax);
+  {
+    if(posX >= leftMax)
+      posX -= dx;
+  }
+  myServo.write(posX);
+  delay(10);
 }
 
 ros::Subscriber<std_msgs::Int32MultiArray> sub( "servo_pos", &messageCb );
@@ -30,6 +39,7 @@ void setup() {
   myServo.attach(9);
   nh.initNode();
   nh.subscribe(sub);
+  myServo.write(middle);
 }
 
 void loop()  {
