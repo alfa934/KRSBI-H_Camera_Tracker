@@ -1,0 +1,14 @@
+min : 0
+max = 4095
+
+middle = 2048 => 4096/2
+
+90 degrees = 1024 => 90 * (4095/360)
+45 degrees = 513 => 45 * (4095/360)
+
+Therefore,
+RightMax = middle + 1024;
+LeftMax = middle - 1024;
+
+
+or... just halve everything
